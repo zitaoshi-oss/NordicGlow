@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { glass, navLinks } from "./glass";
+import OnlineCount from "./OnlineCount";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -40,6 +41,7 @@ export default function Header() {
           </ul>
 
           <div className="flex items-center gap-3">
+            <OnlineCount />
             <Link
               href="/#register"
               className="hidden rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-white sm:block"
