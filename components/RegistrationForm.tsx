@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState, useEffect } from "react";
 import { register, type RegisterState } from "@/app/actions";
 import RegistrationFields from "./RegistrationFields";
@@ -22,6 +23,13 @@ export default function RegistrationForm({ full }: { full: boolean }) {
       <div className="rounded-3xl border border-emerald-300/60 bg-emerald-300/10 p-8 text-center" aria-live="polite">
         <p className="text-4xl">🎉</p>
         <p className="mt-4 text-lg leading-8 text-white">{state.message}</p>
+        <p className="mt-4 text-sm text-slate-300">
+          之後可到
+          <Link href="/my-registration" className="mx-1 text-emerald-300 underline">
+            查詢報名
+          </Link>
+          ，用報名時的 Email 與手機查看狀態或修改資料。
+        </p>
       </div>
     );
   }
