@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:setup": "node --env-file=.env.local scripts/db-setup.mjs"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.2.0",
     "@upstash/redis": "^1.39.0",
     "leaflet": "^1.9.4",
     "next": "16.4.2",

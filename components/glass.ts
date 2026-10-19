@@ -8,4 +8,5 @@ export const navLinks = [
   { href: "/#diet", label: "素食指南" },
   { href: "/blog", label: "景點文章" },
   { href: "/#register", label: "線上報名" },
+  { href: "/my-registration", label: "查詢報名" },
 ];

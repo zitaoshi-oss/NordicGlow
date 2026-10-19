@@ -1,4 +1,4 @@
-// 報名欄位：前台報名表與後台修改頁共用
+// 報名欄位：前台報名表、報名者修改頁與後台修改頁共用
 export const inputClass =
   "mt-2 w-full rounded-xl border border-white/20 bg-slate-950/60 px-4 py-3 text-white placeholder:text-slate-500 focus:border-emerald-300 focus:ring-2 focus:ring-emerald-300/30 focus:outline-none";
 
@@ -33,10 +33,16 @@ function Field({
 export default function RegistrationFields({
   v,
   e,
+  contactLocked,
 }: {
   v: Record<string, string | undefined>;
   e: Record<string, string | undefined>;
+  // 報名者自己修改時，Email 與手機是查詢憑證，只能看不能改
+  contactLocked?: boolean;
 }) {
+  const lockedHint = contactLocked ? "這是查詢報名用的資料，如需更改請與我們聯繫" : undefined;
+  const lockedClass = contactLocked ? " cursor-not-allowed opacity-60" : "";
+
   return (
     <>
     <fieldset className="grid gap-5 sm:grid-cols-2">
@@ -59,11 +65,11 @@ export default function RegistrationFields({
       <Field label="出生日期" name="birthday" required error={e.birthday}>
         <input id="birthday" name="birthday" type="date" defaultValue={v.birthday} className={inputClass} />
       </Field>
-      <Field label="手機" name="phone" required error={e.phone}>
-        <input id="phone" name="phone" type="tel" defaultValue={v.phone} placeholder="0912-345-678" className={inputClass} autoComplete="tel" />
+      <Field label="手機" name="phone" required error={e.phone} hint={lockedHint}>
+        <input id="phone" name="phone" type="tel" defaultValue={v.phone} placeholder="0912-345-678" className={inputClass + lockedClass} autoComplete="tel" readOnly={contactLocked} />
       </Field>
-      <Field label="Email" name="email" required error={e.email}>
-        <input id="email" name="email" type="email" defaultValue={v.email} placeholder="name@example.com" className={inputClass} autoComplete="email" />
+      <Field label="Email" name="email" required error={e.email} hint={lockedHint}>
+        <input id="email" name="email" type="email" defaultValue={v.email} placeholder="name@example.com" className={inputClass + lockedClass} autoComplete="email" readOnly={contactLocked} />
       </Field>
     </fieldset>
 
