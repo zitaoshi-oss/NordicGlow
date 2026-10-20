@@ -24,7 +24,7 @@ export default function Footer() {
       <div className={`${glass} px-6 py-10 sm:px-8 md:py-12`}>
         <div className="grid gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4">
           <div>
-            <Link href="/#" className="font-serif text-xl font-bold tracking-wide text-white">
+            <Link href="/" className="font-serif text-xl font-bold tracking-wide text-white">
               ❄️ Nordic<span className="text-cyan-300">Glow</span>
             </Link>
             <p className="mt-4 text-sm leading-7 text-slate-300">

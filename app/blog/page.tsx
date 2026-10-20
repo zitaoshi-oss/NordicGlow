@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { glass } from "@/components/glass";
+import PageNav from "@/components/PageNav";
 import SectionHeading from "@/components/SectionHeading";
 import { posts, readingMinutes } from "@/lib/blog";
 import { dayDate } from "@/lib/trip";
@@ -70,6 +71,8 @@ export default function BlogPage() {
           </Link>
         ))}
       </div>
+
+      <PageNav current="/blog" />
     </main>
   );
 }

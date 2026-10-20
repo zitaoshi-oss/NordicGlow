@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { glass } from "@/components/glass";
 import LookupForm from "@/components/LookupForm";
+import PageNav from "@/components/PageNav";
 import { currentRegistrant } from "@/lib/registrantAuth";
 import { findRegistrationsByContact } from "@/lib/registrations";
 import { trip } from "@/lib/trip";
@@ -110,6 +111,8 @@ export default function MyRegistrationPage({ searchParams }: PageProps<"/my-regi
       <Suspense fallback={<p className="mt-16 text-center text-slate-300">載入中…</p>}>
         <MyRegistrationContent searchParams={searchParams} />
       </Suspense>
+
+      <PageNav current="/register" />
     </main>
   );
 }
