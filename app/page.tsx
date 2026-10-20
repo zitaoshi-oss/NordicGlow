@@ -77,7 +77,7 @@ export default function Home() {
 
       {/* 2–7. 各區塊入口，點擊前往對應分頁 */}
       <section id="explore" className="scroll-mt-28 pt-20 md:pt-28">
-        <SectionHeading eyebrow="Explore" title="探索這趟旅程" desc="從行程亮點、每日安排、景點故事到素食準備與報名，點選區塊查看完整內容。" />
+        <SectionHeading eyebrow="Explore" title="探索這趟旅程" desc="從行程亮點、每日安排、景點故事、素食準備與報名，到認識瑞典與挪威，點選區塊查看完整內容。" />
         <div className="mt-8 grid gap-5 sm:grid-cols-2 md:mt-12 lg:grid-cols-3">
           {navLinks.map((link, i) => (
             <Link key={link.href} href={link.href} className={`${glass} group flex flex-col overflow-hidden`}>

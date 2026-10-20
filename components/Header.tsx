@@ -8,11 +8,11 @@ import OnlineCount from "./OnlineCount";
 export default function Header() {
   const [open, setOpen] = useState(false);
 
-  // 選單開啟時：按 Esc 關閉；視窗放大到平板以上自動收起
+  // 選單開啟時：按 Esc 關閉；視窗放大到桌面寬度自動收起
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    const mq = window.matchMedia("(min-width: 768px)");
+    const mq = window.matchMedia("(min-width: 1280px)");
     const onResize = () => mq.matches && setOpen(false);
     window.addEventListener("keydown", onKey);
     mq.addEventListener("change", onResize);
@@ -30,7 +30,7 @@ export default function Header() {
             ❄️ Nordic<span className="text-cyan-300">Glow</span>
           </Link>
 
-          <ul className="hidden gap-6 text-sm text-slate-200 md:flex lg:gap-8">
+          <ul className="hidden gap-6 text-sm whitespace-nowrap text-slate-200 xl:flex">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="transition-colors hover:text-white">
@@ -53,7 +53,7 @@ export default function Header() {
               aria-label={open ? "關閉選單" : "開啟選單"}
               aria-expanded={open}
               onClick={() => setOpen(!open)}
-              className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-white/20 bg-white/10 md:hidden"
+              className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-white/20 bg-white/10 xl:hidden"
             >
               <span className={`h-0.5 w-5 bg-white transition ${open ? "translate-y-2 rotate-45" : ""}`} />
               <span className={`h-0.5 w-5 bg-white transition ${open ? "opacity-0" : ""}`} />
@@ -63,7 +63,7 @@ export default function Header() {
         </div>
 
         {open && (
-          <ul className="mt-3 flex max-h-[70svh] flex-col gap-1 overflow-y-auto border-t border-white/15 pt-3 md:hidden">
+          <ul className="mt-3 flex max-h-[70svh] flex-col gap-1 overflow-y-auto border-t border-white/15 pt-3 xl:hidden">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
