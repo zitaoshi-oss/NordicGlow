@@ -27,6 +27,9 @@ const statements = [
     emergency_phone text NOT NULL,
     note text NOT NULL DEFAULT ''
   )`,
+  // 身份（比丘尼／居士）與法名；舊資料補空字串
+  `ALTER TABLE registrations ADD COLUMN IF NOT EXISTS identity text NOT NULL DEFAULT ''`,
+  `ALTER TABLE registrations ADD COLUMN IF NOT EXISTS dharma_name text NOT NULL DEFAULT ''`,
   // 報名者用 Email + 手機查詢，手機只比對數字（0912-345-678 與 0912345678 視為相同）
   `CREATE INDEX IF NOT EXISTS registrations_contact_idx
     ON registrations (lower(email), regexp_replace(phone, '\\D', '', 'g'))`,

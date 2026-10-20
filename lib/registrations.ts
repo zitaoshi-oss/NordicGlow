@@ -20,6 +20,8 @@ export type Registration = {
   emergencyName: string;
   emergencyPhone: string;
   note: string;
+  identity: string; // 比丘尼 或 居士；新增此欄位前的舊資料為空字串
+  dharmaName: string; // 法名，僅比丘尼填寫
 };
 
 export type RegistrationInput = Omit<Registration, "id" | "createdAt" | "status">;
@@ -27,7 +29,8 @@ export type RegistrationInput = Omit<Registration, "id" | "createdAt" | "status"
 // 資料表欄位（snake_case）對應到程式裡的屬性名稱（camelCase）
 const COLUMNS = `id, created_at AS "createdAt", status, name_zh AS "nameZh", name_en AS "nameEn", gender, birthday,
   phone, email, room, roommate, no_five_spices AS "noFiveSpices", allergies,
-  emergency_name AS "emergencyName", emergency_phone AS "emergencyPhone", note`;
+  emergency_name AS "emergencyName", emergency_phone AS "emergencyPhone", note,
+  identity, dharma_name AS "dharmaName"`;
 
 const toRegistration = (row: Record<string, unknown>) =>
   ({ ...row, createdAt: new Date(row.createdAt as string).toISOString() }) as Registration;
@@ -45,12 +48,13 @@ const isUuid = (id: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}
 
 const inputParams = (d: RegistrationInput) => [
   d.nameZh, d.nameEn, d.gender, d.birthday, d.phone, d.email, d.room, d.roommate,
-  d.noFiveSpices, d.allergies, d.emergencyName, d.emergencyPhone, d.note,
+  d.noFiveSpices, d.allergies, d.emergencyName, d.emergencyPhone, d.note, d.identity, d.dharmaName,
 ];
 
-// 對應 inputParams 的 $1 ~ $13
+// 對應 inputParams 的 $1 ~ $15
 const SET_INPUT = `name_zh = $1, name_en = $2, gender = $3, birthday = $4, phone = $5, email = $6, room = $7,
-  roommate = $8, no_five_spices = $9, allergies = $10, emergency_name = $11, emergency_phone = $12, note = $13`;
+  roommate = $8, no_five_spices = $9, allergies = $10, emergency_name = $11, emergency_phone = $12, note = $13,
+  identity = $14, dharma_name = $15`;
 
 export async function readRegistrations(): Promise<Registration[]> {
   const rows = await db().query(`SELECT ${COLUMNS} FROM registrations ORDER BY created_at, id`);
@@ -77,9 +81,9 @@ export async function addRegistration(data: RegistrationInput) {
     sql.query(LOCK),
     sql.query(
       `INSERT INTO registrations (status, name_zh, name_en, gender, birthday, phone, email, room, roommate,
-         no_five_spices, allergies, emergency_name, emergency_phone, note)
-       VALUES (CASE WHEN ${CONFIRMED_COUNT} < $14 THEN '正取' ELSE '候補' END,
-         $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+         no_five_spices, allergies, emergency_name, emergency_phone, note, identity, dharma_name)
+       VALUES (CASE WHEN ${CONFIRMED_COUNT} < $16 THEN '正取' ELSE '候補' END,
+         $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
        RETURNING ${COLUMNS}`,
       [...inputParams(data), trip.capacity],
     ),
@@ -101,9 +105,9 @@ export async function updateRegistration(
   const [, updated, found] = await sql.transaction([
     sql.query(LOCK),
     sql.query(
-      `UPDATE registrations SET ${SET_INPUT}, status = $14
-       WHERE id = $15
-         AND ($14 <> '正取' OR (SELECT count(*) FROM registrations WHERE status = '正取' AND id <> $15) < $16)
+      `UPDATE registrations SET ${SET_INPUT}, status = $16
+       WHERE id = $17
+         AND ($16 <> '正取' OR (SELECT count(*) FROM registrations WHERE status = '正取' AND id <> $17) < $18)
        RETURNING id`,
       [...inputParams(data), data.status, id, trip.capacity],
     ),
@@ -123,7 +127,7 @@ export async function updateOwnRegistration(
   if (!isUuid(id)) return NOT_FOUND;
   const rows = await db().query(
     `UPDATE registrations SET ${SET_INPUT}
-     WHERE id = $14 AND lower(email) = lower($15) AND regexp_replace(phone, '\\D', '', 'g') = $16
+     WHERE id = $16 AND lower(email) = lower($17) AND regexp_replace(phone, '\\D', '', 'g') = $18
      RETURNING id`,
     [...inputParams(data), id, contact.email, phoneDigits(contact.phone)],
   );
