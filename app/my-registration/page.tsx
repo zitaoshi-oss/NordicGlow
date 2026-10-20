@@ -83,6 +83,7 @@ async function MyRegistrationContent({ searchParams }: { searchParams: Promise<{
               </div>
               <dl className="mt-5 grid gap-x-6 gap-y-3 text-sm sm:grid-cols-2">
                 {[
+                  ["身份", r.identity ? r.identity + (r.dharmaName ? `（法名：${r.dharmaName}）` : "") : "未填"],
                   ["房型", r.room + (r.roommate ? `（同住：${r.roommate}）` : "")],
                   ["飲食", `奶素${r.noFiveSpices ? "・不吃五辛" : ""}${r.allergies ? `・${r.allergies}` : ""}`],
                   ["緊急聯絡人", `${r.emergencyName} ${r.emergencyPhone}`],

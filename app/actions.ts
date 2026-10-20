@@ -23,7 +23,9 @@ export async function register(_prev: RegisterState, formData: FormData): Promis
   const entry = await addRegistration(data);
   refresh();
 
+  // 比丘尼以法名稱呼
+  const name = data.identity === "比丘尼" ? `${data.dharmaName}法師` : data.nameZh;
   return entry.status === "正取"
-    ? { ok: true, name: data.nameZh, message: `${data.nameZh} 您好，報名成功！您是正取名額，專人將於 3 個工作天內與您聯繫。` }
-    : { ok: true, name: data.nameZh, message: `${data.nameZh} 您好，16 位正取名額已滿，已為您登記候補，如有名額釋出將優先通知。` };
+    ? { ok: true, name, message: `${name} 您好，報名成功！您是正取名額，專人將於 3 個工作天內與您聯繫。` }
+    : { ok: true, name, message: `${name} 您好，16 位正取名額已滿，已為您登記候補，如有名額釋出將優先通知。` };
 }

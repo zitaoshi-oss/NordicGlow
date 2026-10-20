@@ -18,9 +18,15 @@ export function parseRegistration(formData: FormData) {
     emergencyName: text(formData, "emergencyName"),
     emergencyPhone: text(formData, "emergencyPhone"),
     note: text(formData, "note"),
+    identity: text(formData, "identity"),
+    dharmaName: text(formData, "dharmaName"),
   };
+  // 居士不需要法名，切換身份後殘留的值一併清掉
+  if (data.identity !== "比丘尼") data.dharmaName = "";
 
   const errors: Record<string, string> = {};
+  if (!["比丘尼", "居士"].includes(data.identity)) errors.identity = "請選擇身份";
+  if (data.identity === "比丘尼" && !data.dharmaName) errors.dharmaName = "比丘尼請填寫法名";
   if (!data.nameZh) errors.nameZh = "請填寫中文姓名";
   if (!/^[A-Z]+(?:(?:, ?| |-)[A-Z]+)*$/.test(data.nameEn)) errors.nameEn = "請依護照填寫英文姓名，例如 WANG, XIAO-MING";
   if (!data.gender) errors.gender = "請選擇性別";

@@ -45,8 +45,42 @@ export default function RegistrationFields({
 
   return (
     <>
-    <fieldset className="grid gap-5 sm:grid-cols-2">
+    <fieldset className="group grid gap-5 sm:grid-cols-2">
       <legend className="mb-4 font-serif text-xl font-bold text-white">旅客資料</legend>
+      <div role="radiogroup" aria-labelledby="identity-label">
+        <p id="identity-label" className="text-sm font-medium text-slate-100">
+          身份<span className="ml-1 text-rose-300">*</span>
+        </p>
+        <div className="mt-2 grid grid-cols-2 gap-3">
+          {[
+            { id: "identity-nun", value: "比丘尼" },
+            { id: "identity-lay", value: "居士" },
+          ].map((option) => (
+            <label
+              key={option.id}
+              htmlFor={option.id}
+              className="flex cursor-pointer items-center gap-2 rounded-xl border border-white/20 bg-slate-950/60 px-4 py-3 text-white transition has-[:checked]:border-emerald-300 has-[:checked]:bg-emerald-300/10"
+            >
+              <input
+                id={option.id}
+                type="radio"
+                name="identity"
+                value={option.value}
+                defaultChecked={v.identity === option.value}
+                className="h-4 w-4 accent-emerald-300"
+              />
+              {option.value}
+            </label>
+          ))}
+        </div>
+        {e.identity && <p className="mt-1.5 text-sm text-rose-300">{e.identity}</p>}
+      </div>
+      {/* 選擇比丘尼時才顯示法名欄位 */}
+      <div className="hidden group-has-[#identity-nun:checked]:block">
+        <Field label="法名" name="dharmaName" required error={e.dharmaName}>
+          <input id="dharmaName" name="dharmaName" defaultValue={v.dharmaName} className={inputClass} />
+        </Field>
+      </div>
       <Field label="中文姓名" name="nameZh" required error={e.nameZh}>
         <input id="nameZh" name="nameZh" defaultValue={v.nameZh} className={inputClass} autoComplete="name" />
       </Field>

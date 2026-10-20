@@ -3,6 +3,8 @@ import { readRegistrations } from "@/lib/registrations";
 
 const columns = [
   ["status", "狀態"],
+  ["identity", "身份"],
+  ["dharmaName", "法名"],
   ["nameZh", "中文姓名"],
   ["nameEn", "護照英文姓名"],
   ["gender", "性別"],

@@ -40,6 +40,7 @@ async function AdminContent({ searchParams }: { searchParams: Promise<{ msg?: st
     { label: "正取", value: `${confirmed.length} / ${trip.capacity}` },
     { label: "候補", value: waitlist.length },
     { label: "剩餘名額", value: Math.max(trip.capacity - confirmed.length, 0) },
+    { label: "比丘尼", value: list.filter((r) => r.identity === "比丘尼").length },
     { label: "不吃五辛", value: list.filter((r) => r.noFiveSpices).length },
     { label: "單人房", value: list.filter((r) => r.room.startsWith("單人房")).length },
     { label: "有過敏／特殊需求", value: list.filter((r) => r.allergies).length },
@@ -104,10 +105,10 @@ async function AdminContent({ searchParams }: { searchParams: Promise<{ msg?: st
         {list.length === 0 ? (
           <p className="p-10 text-center text-slate-300">目前還沒有人報名。</p>
         ) : (
-          <table className="w-full min-w-[1500px] text-left text-sm">
+          <table className="w-full min-w-[1620px] text-left text-sm">
             <thead className="border-b border-white/15 text-emerald-200">
               <tr>
-                {["#", "操作", "狀態", "中文姓名", "護照英文姓名", "性別", "生日", "手機", "Email", "房型／同住", "飲食", "緊急聯絡人", "備註", "報名時間"].map(
+                {["#", "操作", "狀態", "身份／法名", "中文姓名", "護照英文姓名", "性別", "生日", "手機", "Email", "房型／同住", "飲食", "緊急聯絡人", "備註", "報名時間"].map(
                   (h) => (
                     <th key={h} className="px-4 py-3 font-semibold whitespace-nowrap">
                       {h}
@@ -137,6 +138,10 @@ async function AdminContent({ searchParams }: { searchParams: Promise<{ msg?: st
                     >
                       {r.status}
                     </span>
+                  </td>
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    {r.identity || <span className="text-slate-500">未填</span>}
+                    {r.dharmaName && <div className="font-semibold text-white">{r.dharmaName}</div>}
                   </td>
                   <td className="px-4 py-3 font-semibold whitespace-nowrap text-white">{r.nameZh}</td>
                   <td className="px-4 py-3 whitespace-nowrap">{r.nameEn}</td>
