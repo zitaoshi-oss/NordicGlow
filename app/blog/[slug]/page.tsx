@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { glass } from "@/components/glass";
+import PageNav from "@/components/PageNav";
 import { getPost, posts, readingMinutes } from "@/lib/blog";
 import { dayDate } from "@/lib/trip";
 
@@ -103,7 +104,7 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
               </div>
             )}
             <Link
-              href="/#register"
+              href="/register"
               className="block rounded-full bg-emerald-300 py-3 text-center font-semibold text-slate-950 transition hover:bg-emerald-200"
             >
               立即報名
@@ -128,6 +129,8 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
           </Link>
         )}
       </nav>
+
+      <PageNav current="/blog" />
     </main>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import PageNav from "@/components/PageNav";
 import SectionHeading from "@/components/SectionHeading";
 import TripMap from "@/components/TripMap";
 import { mapStops } from "@/lib/tripMap";
@@ -32,6 +33,8 @@ export default function BlogMapPage() {
       <p className="mt-4 text-xs leading-6 text-slate-400">
         ※ 動線為示意路線，實際行車路線、渡輪與航班依當地交通狀況調整。去回程的國際航班（高雄－曼谷－北歐）未繪於地圖上。
       </p>
+
+      <PageNav current="/blog/map" />
     </main>
   );
 }
